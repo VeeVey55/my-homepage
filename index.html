@@ -9,15 +9,15 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:       #fafafa;
-    --surface:  #ffffff;
-    --border:   #e5e5e5;
-    --text:     #1a1a1a;
-    --text-mid: #6b6b6b;
-    --text-dim:  #999999;
-    --accent:   #2c2c2c;
+    --bg:       #0a0a0a;
+    --surface:  #141414;
+    --border:   #262626;
+    --text:     #f5f5f5;
+    --text-mid: #a0a0a0;
+    --text-dim: #666666;
+    --accent:   #d4a574;
     --radius:   12px;
-    --shadow:   0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow:   0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
   }
 
   body {
@@ -39,20 +39,21 @@
   /* ===== Hero ===== */
   .hero {
     text-align: center;
-    padding: 48px 0 36px;
+    padding: 64px 0 48px;
   }
 
   .avatar {
     width: 96px;
     height: 96px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 1px solid #333;
     margin: 0 auto 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 36px;
-    color: #fff;
+    color: #f5f5f5;
     user-select: none;
   }
 
@@ -119,7 +120,7 @@
 
   .tag {
     display: inline-block;
-    background: #f3f3f3;
+    background: #1c1c1c;
     color: var(--text-mid);
     padding: 2px 10px;
     border-radius: 99px;
@@ -143,8 +144,8 @@
   }
 
   .work-card:hover {
-    border-color: #ccc;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-color: #444;
+    box-shadow: 0 2px 12px rgba(0,0,0,.5);
   }
 
   .work-card-icon {
@@ -171,7 +172,7 @@
     font-size: 11px;
     padding: 2px 8px;
     border-radius: 99px;
-    background: #f3f3f3;
+    background: #1c1c1c;
     color: var(--text-dim);
   }
 
@@ -192,7 +193,7 @@
   }
 
   .chat-messages::-webkit-scrollbar { width: 4px; }
-  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
 
   .msg {
     max-width: 82%;
@@ -207,7 +208,7 @@
 
   .msg.bot {
     align-self: flex-start;
-    background: #f3f3f3;
+    background: #1c1c1c;
     color: var(--text);
     border-bottom-left-radius: 4px;
   }
@@ -215,13 +216,13 @@
   .msg.user {
     align-self: flex-end;
     background: var(--accent);
-    color: #fff;
+    color: #1a1a1a;
     border-bottom-right-radius: 4px;
   }
 
   .msg.thinking {
     align-self: flex-start;
-    background: #f3f3f3;
+    background: #1c1c1c;
     color: var(--text-dim);
     font-style: italic;
     border-bottom-left-radius: 4px;
@@ -236,11 +237,13 @@
   .chat-input-row input {
     flex: 1;
     padding: 10px 14px;
-    border: 1px solid var(--border);
+    border: 1px solid #333;
     border-radius: 99px;
     font-size: 14px;
     outline: none;
     font-family: inherit;
+    background: #1c1c1c;
+    color: var(--text);
     transition: border-color .15s;
   }
 
@@ -253,7 +256,7 @@
     border: none;
     border-radius: 99px;
     background: var(--accent);
-    color: #fff;
+    color: #1a1a1a;
     font-size: 14px;
     cursor: pointer;
     font-family: inherit;
@@ -272,9 +275,9 @@
 
   .quick-asks button {
     padding: 6px 14px;
-    border: 1px solid var(--border);
+    border: 1px solid #333;
     border-radius: 99px;
-    background: var(--surface);
+    background: #1c1c1c;
     color: var(--text-mid);
     font-size: 12px;
     cursor: pointer;
@@ -415,19 +418,38 @@
 // ===== 数字分身知识库 =====
 const knowledge = {
   name: "韦苇",
-  identity: "自由职业者，同时也是一个正在学习用 AI 做产品的小白",
-  now: "最近在搭自己的个人主页，整理作品集，梳理写作方向。希望把过去写的东西和做的小项目好好归拢一下。",
-  works: "目前作品集还在整理中。之前写过一些关于内容表达和知识整理的文章，也用 AI 工具做过几个小项目，整理好了会第一时间放在这里。",
-  contact: "可以先通过这个主页留言，后续会加上联系方式。也可以关注我的社交媒体（正在搭建中）。",
-  interests: "我喜欢 AI 应用、健身、烘焙和跳舞。最近在尝试用 AI 工具辅助写作和整理知识，觉得特别好用。",
-  trait: "朋友们都说我比较温柔、善于倾听。可能因为这样，很多人愿意跟我聊他们的想法和困惑。",
-  strengths: "内容表达、AI 应用、知识整理。我觉得把复杂的事情用简单的话讲清楚，是件很有成就感的事。",
-  fallback: "这个问题我还不太会回答 😄 你可以试试问我：在做什么、有哪些作品、怎么联系我，或者关于我的兴趣爱好～"
+  identity: "自由职业，正在学用 AI 做产品。",
+  now: "最近在搭这个个人主页，整理自己写过的文章和做过的小项目。",
+  works: "作品还在整理中。之前写过一些关于内容表达和知识整理的文章，也用 AI 工具做过几个小尝试，整理好了会放上来。",
+  contact: "目前可以先通过这个主页留言联系我，后续会加上更多方式。",
+  interests: "喜欢 AI 应用、健身、烘焙、跳舞。",
+  trait: "朋友们说我比较温和、善于倾听。",
+  strengths: "内容表达、AI 应用、知识整理。",
+  fallback: "这个问题我还不太清楚，可以直接联系我本人确认～"
 };
+
+// ===== 边界规则 =====
+const boundaries = [
+  {
+    keys: ["政治", "政府", "政策", "党", "体制"],
+    reply: "这个问题我不太了解，聊点别的吧～"
+  },
+  {
+    keys: ["地址", "住哪", "电话", "手机", "身份证", "收入", "多大"],
+    reply: "这些信息不太方便透露，可以聊聊其他方面～"
+  }
+];
 
 // ===== 匹配逻辑 =====
 function getReply(input) {
   const q = input.trim().toLowerCase();
+
+  // 边界规则优先
+  for (const b of boundaries) {
+    if (b.keys.some(k => q.includes(k))) {
+      return b.reply;
+    }
+  }
 
   const rules = [
     { keys: ["做什么", "在干嘛", "最近", "现在", "忙什么", "干啥"],       reply: knowledge.now },
@@ -437,7 +459,7 @@ function getReply(input) {
     { keys: ["性格", "特点", "温柔", "倾听", "是什么样的人"],               reply: knowledge.trait },
     { keys: ["擅长", "方向", "能力", "技能", "会什么"],                    reply: knowledge.strengths },
     { keys: ["你是谁", "身份", "职业", "介绍", "干什么的"],                reply: knowledge.identity },
-    { keys: ["你好", "嗨", "hi", "hello", "嘿"],                           reply: "你好呀！欢迎来到我的主页 👋 有什么想了解的吗？" },
+    { keys: ["你好", "嗨", "hi", "hello", "嘿"],                           reply: "你好呀！有什么想了解的吗？" },
   ];
 
   for (const rule of rules) {
