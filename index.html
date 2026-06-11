@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韦苇 — 个人主页</title>
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #fafafa;
+    --surface:  #ffffff;
+    --border:   #e5e5e5;
+    --text:     #1a1a1a;
+    --text-mid: #6b6b6b;
+    --text-dim:  #999999;
+    --accent:   #2c2c2c;
+    --radius:   12px;
+    --shadow:   0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== Layout ===== */
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    text-align: center;
+    padding: 48px 0 36px;
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #fff;
+    user-select: none;
+  }
+
+  .name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+
+  .tagline {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--text-mid);
+  }
+
+  /* ===== Section Cards ===== */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  /* ===== Info Grid ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .info-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: .04em;
+  }
+
+  .info-value {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .info-value.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: #f3f3f3;
+    color: var(--text-mid);
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* ===== Works Grid ===== */
+  .works-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .work-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: border-color .2s, box-shadow .2s;
+    cursor: default;
+  }
+
+  .work-card:hover {
+    border-color: #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+
+  .work-card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .work-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .work-card-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .work-card-status {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: #f3f3f3;
+    color: var(--text-dim);
+  }
+
+  /* ===== Chat ===== */
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .msg {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    animation: fadeIn .25s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .msg.bot {
+    align-self: flex-start;
+    background: #f3f3f3;
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.thinking {
+    align-self: flex-start;
+    background: #f3f3f3;
+    color: var(--text-dim);
+    font-style: italic;
+    border-bottom-left-radius: 4px;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .chat-input-row input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color .15s;
+  }
+
+  .chat-input-row input:focus {
+    border-color: var(--accent);
+  }
+
+  .chat-input-row button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 99px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .15s;
+  }
+
+  .chat-input-row button:hover { opacity: .85; }
+  .chat-input-row button:active  { opacity: .7; }
+
+  .quick-asks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .quick-asks button {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background: var(--surface);
+    color: var(--text-mid);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+  }
+
+  .quick-asks button:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 480px) {
+    .page { padding: 24px 16px 40px; }
+    .hero { padding: 32px 0 24px; }
+    .section { padding: 20px 18px 18px; }
+    .info-grid { grid-template-columns: 1fr; }
+    .works-grid { grid-template-columns: 1fr; }
+    .chat-container { height: 380px; }
+    .msg { max-width: 88%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <div class="avatar">🪴</div>
+    <h1 class="name">韦苇</h1>
+    <p class="tagline">一个正在学习用 AI 做产品的小白</p>
+  </header>
+
+  <!-- ===== 个人信息 ===== -->
+  <section class="section">
+    <h2 class="section-title">关于我</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">身份</span>
+        <span class="info-value">自由职业</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">目前在做什么</span>
+        <span class="info-value">整理自己的作品和写作方向</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">兴趣</span>
+        <span class="info-value tags">
+          <span class="tag">AI 应用</span>
+          <span class="tag">健身</span>
+          <span class="tag">烘焙</span>
+          <span class="tag">跳舞</span>
+        </span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">特点</span>
+        <span class="info-value">温柔、善于倾听</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 作品展示板 ===== -->
+  <section class="section">
+    <h2 class="section-title">作品展示</h2>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-card-icon">✍️</div>
+        <div class="work-card-title">内容表达 · 写作集</div>
+        <div class="work-card-desc">关于知识整理、个人成长的文章合集，用简单的话讲清楚复杂的事。</div>
+        <span class="work-card-status">整理中</span>
+      </div>
+      <div class="work-card">
+        <div class="work-card-icon">🤖</div>
+        <div class="work-card-title">AI 应用 · 小项目</div>
+        <div class="work-card-desc">用 AI 工具做的一些实践项目，包括自动化、内容生成等尝试。</div>
+        <span class="work-card-status">整理中</span>
+      </div>
+      <div class="work-card">
+        <div class="work-card-icon">📂</div>
+        <div class="work-card-title">知识整理 · 模板库</div>
+        <div class="work-card-desc">自己总结的知识管理方法和模板，帮助更好地组织信息。</div>
+        <span class="work-card-status">整理中</span>
+      </div>
+      <div class="work-card">
+        <div class="work-card-icon">🌱</div>
+        <div class="work-card-title">个人主页搭建</div>
+        <div class="work-card-desc">正在进行的项目——你现在看到的这个页面就是其中之一。</div>
+        <span class="work-card-status">进行中</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 数字分身聊天区 ===== -->
+  <section class="section">
+    <h2 class="section-title">我的数字分身</h2>
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">
+      有什么想了解的吗？直接问我，或者点击下方快捷提问 👇
+    </p>
+
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg bot">
+          你好呀！我是韦苇的数字分身 👋<br>你可以问我关于她的事情，比如她在做什么、有哪些作品，或者怎么联系她。
+        </div>
+      </div>
+
+      <div class="quick-asks" id="quickAsks">
+        <button data-q="你现在在做什么？">你现在在做什么？</button>
+        <button data-q="你有哪些作品？">你有哪些作品？</button>
+        <button data-q="怎么联系你？">怎么联系你？</button>
+        <button data-q="你的兴趣是什么？">你的兴趣是什么？</button>
+      </div>
+
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="输入你的问题…" maxlength="200" />
+        <button id="chatSend">发送</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    © 2026 韦苇 · 自己搭的个人主页
+  </footer>
+
+</div>
+
+<script>
+// ===== 数字分身知识库 =====
+const knowledge = {
+  name: "韦苇",
+  identity: "自由职业者，同时也是一个正在学习用 AI 做产品的小白",
+  now: "最近在搭自己的个人主页，整理作品集，梳理写作方向。希望把过去写的东西和做的小项目好好归拢一下。",
+  works: "目前作品集还在整理中。之前写过一些关于内容表达和知识整理的文章，也用 AI 工具做过几个小项目，整理好了会第一时间放在这里。",
+  contact: "可以先通过这个主页留言，后续会加上联系方式。也可以关注我的社交媒体（正在搭建中）。",
+  interests: "我喜欢 AI 应用、健身、烘焙和跳舞。最近在尝试用 AI 工具辅助写作和整理知识，觉得特别好用。",
+  trait: "朋友们都说我比较温柔、善于倾听。可能因为这样，很多人愿意跟我聊他们的想法和困惑。",
+  strengths: "内容表达、AI 应用、知识整理。我觉得把复杂的事情用简单的话讲清楚，是件很有成就感的事。",
+  fallback: "这个问题我还不太会回答 😄 你可以试试问我：在做什么、有哪些作品、怎么联系我，或者关于我的兴趣爱好～"
+};
+
+// ===== 匹配逻辑 =====
+function getReply(input) {
+  const q = input.trim().toLowerCase();
+
+  const rules = [
+    { keys: ["做什么", "在干嘛", "最近", "现在", "忙什么", "干啥"],       reply: knowledge.now },
+    { keys: ["作品", "项目", "写过", "做过", "portfolio", "案例"],         reply: knowledge.works },
+    { keys: ["联系", "微信", "邮箱", "email", "社交", "找到你", "怎么联系"], reply: knowledge.contact },
+    { keys: ["兴趣", "爱好", "喜欢", "平时"],                              reply: knowledge.interests },
+    { keys: ["性格", "特点", "温柔", "倾听", "是什么样的人"],               reply: knowledge.trait },
+    { keys: ["擅长", "方向", "能力", "技能", "会什么"],                    reply: knowledge.strengths },
+    { keys: ["你是谁", "身份", "职业", "介绍", "干什么的"],                reply: knowledge.identity },
+    { keys: ["你好", "嗨", "hi", "hello", "嘿"],                           reply: "你好呀！欢迎来到我的主页 👋 有什么想了解的吗？" },
+  ];
+
+  for (const rule of rules) {
+    if (rule.keys.some(k => q.includes(k))) {
+      return rule.reply;
+    }
+  }
+
+  return knowledge.fallback;
+}
+
+// ===== DOM =====
+const messages  = document.getElementById("chatMessages");
+const input     = document.getElementById("chatInput");
+const sendBtn   = document.getElementById("chatSend");
+const quickAsks = document.getElementById("quickAsks");
+
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function handleSend(text) {
+  const msg = text || input.value.trim();
+  if (!msg) return;
+
+  addMessage(msg, "user");
+  input.value = "";
+
+  // 模拟思考延迟
+  const thinkDiv = document.createElement("div");
+  thinkDiv.className = "msg thinking";
+  thinkDiv.textContent = "正在思考…";
+  messages.appendChild(thinkDiv);
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    thinkDiv.remove();
+    const reply = getReply(msg);
+    addMessage(reply, "bot");
+  }, 600 + Math.random() * 400);
+}
+
+sendBtn.addEventListener("click", () => handleSend());
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") handleSend();
+});
+
+quickAsks.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    handleSend(e.target.dataset.q);
+  }
+});
+</script>
+</body>
+</html>
